@@ -29,7 +29,7 @@ const lookup = {
     // search in invTypes...until a match is found...
     const group = invTypes.find(element => element.typeId == typeId);
     // return "typename" from entry if it is defined...
-    return typeof group != 'undefined'
+    return typeof group != `undefined`
       ? group.groupId
       : new Error(`groupId from typeId ${typeId} is ${typeof group}`);
   },
@@ -77,9 +77,7 @@ const lookup = {
    * @return {string}
    */
   marketGroupName: marketGroupId => {
-    const marketGroup = invMarketGroups.find(
-      element => element.marketGroupId == marketGroupId
-    );
+    const marketGroup = invMarketGroups.find(element => element.marketGroupId == marketGroupId);
     return typeof marketGroup != `undefined`
       ? marketGroup.marketGroupName
       : new Error(
@@ -97,9 +95,7 @@ const lookup = {
    * @return {string}
    */
   categoryId: groupId => {
-    const category = invGroups.find(element => {
-      return element.groupId == groupId;
-    });
+    const category = invGroups.find(element => element.groupId == groupId);
     return typeof category != `undefined`
       ? category.categoryId
       : new Error(`categoryId from groupId ${groupId} is ${typeof category}`);
@@ -114,13 +110,10 @@ const lookup = {
    * @return {string}
    */
   categoryName: categoryId => {
-    // search in invGroups...
-    const category = invCategories.find(element => {
-      // until a match is found...
-      return element.categoryId == categoryId;
-    });
+    // search in invGroups...      // until a match is found...
+    const category = invCategories.find(element => element.categoryId == categoryId);
     // return "categoryName" from entry if it is defined...
-    return typeof category != 'undefined'
+    return typeof category != `undefined`
       ? category.categoryName
       : new Error(
           `categoryName from categoryId ${categoryId} is ${typeof category}`
@@ -137,11 +130,9 @@ const lookup = {
    */
   activityName: activityId => {
     // search in invTypes...		// until a match is found...
-    const activity = industryActivities.find(
-      element => element.activityId == activityId
-    );
+    const activity = industryActivities.find(element => element.activityId == activityId);
     // return "typename" from entry if it is defined...
-    return typeof activity != 'undefined'
+    return typeof activity != `undefined`
       ? activity.activityName
       : new Error(
           `activityName from activityId ${activityId} is ${typeof activity}`
