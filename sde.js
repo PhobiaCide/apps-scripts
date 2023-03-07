@@ -11,9 +11,9 @@
  * @return {object}
  */
 function getData({
-  tableName = false,
-  tableAddress = false,
-  useCache = false
+  tableName: false,
+  tableAddress: false,
+  useCache: false
 }) {
   return !tableAddress
     ? !tableName
@@ -89,8 +89,8 @@ const sde = {
   invMarketGroups: getData({
     tableName: 'invMarketGroups'
   })
-    .map(entry => {
-      const { marketGroupId, marketGroupName, description } = entry;
+    .map(marketGroup => {
+      const { marketGroupId, marketGroupName, description } = marketGroup;
       return {
         marketGroupId,
         marketGroupName,
@@ -111,15 +111,15 @@ const sde = {
   })
     .filter(
       // filter for entries where "published" is not zero...
-      entry => {
-        return entry.published != 0;
+      category => {
+        return category.published != 0;
       }
     )
     .map(
       // for each array entry...
-      entry => {
+      category => {
         // return an object with these properties...
-        const { categoryId, categoryName } = entry;
+        const { categoryId, categoryName } = category;
         return {
           categoryId,
           categoryName
@@ -139,15 +139,15 @@ const sde = {
   })
     .filter(
       // filter for entries where "published" is not zero...
-      entry => {
-        return entry.published != 0;
+      group => {
+        return group.published != 0;
       }
     )
     .map(
       // for each array entry...
-      entry => {
+      group => {
         // return an object with these attributes...
-        const { groupId, groupName, categoryId } = entry;
+        const { groupId, groupName, categoryId } = group;
         return {
           groupId,
           groupName,
@@ -168,15 +168,15 @@ const sde = {
   })
     .filter(
       // filter for entries where "published" is not zero...
-      entry => {
-        return entry.published != 0;
+      type => {
+        return type.published != 0;
       }
     )
     .map(
       // for each array entry...
-      entry => {
+      type => {
         // return an object with these attributes...
-        const { typeId, typeName, description, groupId, marketGroupId } = entry;
+        const { typeId, typeName, description, groupId, marketGroupId } = type;
         return {
           typeId,
           typeName,
@@ -200,12 +200,11 @@ const sde = {
   industryActivityMaterials: getData({
     tableName: 'industryActivityMaterials'
   })
-    .filter(entry => {
-      return publishedTypeIds.includes(entry.typeId);
+    .filter(material => {
+      const { typeId } = material
+      return publishedTypeIds.includes(typeId);
     })
-    .sort((a, b) => {
-      return a.typeId - b.typeId;
-    }),
+    .sort((a, b) => a.typeId - b.typeId),
   /**
    * @name industryActivityProducts
    * @description Returns an array of objects, each of which represents a different item. Taken from the SDE table, "industryActivityProducts", the list is filtered for only published entries and only certain attributes are mapped.
@@ -216,11 +215,12 @@ const sde = {
   industryActivityProducts: getData({
     tableName: 'industryActivityProducts'
   })
-    .filter(entry => {
-      return publishedTypeIds.includes(entry.typeId);
+    .filter(product => {
+      const { typeId } = product;
+      return publishedTypeIds.includes(typeId);
     })
-    .map(entry => {
-      const { typeId, activityId, productTypeId, quantity } = entry;
+    .map(product => {
+      const { typeId, activityId, productTypeId, quantity } = product;
       return {
         typeId,
         activityId,
@@ -242,12 +242,11 @@ const sde = {
   industryActivity: getData({
     tableName: 'industryActivity'
   })
-    .filter(entry => {
-      return publishedTypeIds.includes(entry.typeId);
+    .filter(activity => {
+      const { typeId } = activity;
+      return publishedTypeIds.includes(typeId);
     })
-    .sort((a, b) => {
-      return a.typeId - b.typeId;
-    }),
+    .sort((a, b) => a.typeId - b.typeId;),
   /**
    * @name sde.industryActivityProbabilities
    * @method
@@ -259,7 +258,10 @@ const sde = {
   industryActivityProbabilities: getData({
     tableName: `industryActivityProbabilities`
   })
-    .filter(entry => publishedTypeIds.includes(entry.typeId))
+    .filter(probability => {
+      const { typeId } = probability;
+      return publishedTypeIds.includes(typeId);
+    })
     .sort((a, b) => a.typeId - b.typeId),
   /**
    * @name sde.industryActivitySkills
@@ -272,7 +274,10 @@ const sde = {
   industryActivitySkills: getData({
     tableName: `industryActivitySkills`
   })
-    .filter(entry => publishedTypeIds.includes(entry.typeId))
+    .filter(skill => {
+      const { typeId } = skill;
+      return publishedTypeIds.includes(typeId)
+    })
     .sort((a, b) => a.typeId - b.typeId)
 };
 
